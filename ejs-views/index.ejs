@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Demo Node.js</title>
+  <title>Demo Node.js | <%= title %></title>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <style>
     body {
-      padding-top: 80px;
+      display: flex;
       min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
       font-family: 'Montserrat', sans-serif;
       font-size: 20px;
       background: linear-gradient(to bottom, #8dc6ff, #e4f1fe);
       color: #22313f;
     }
+    
     h1 {
       text-transform: uppercase;
     }
@@ -36,32 +40,18 @@
       list-style: none;
     }
     nav a {
+      text-decoration: none;
+      color: #fff;
       min-height: 60px;
       display: block;
       padding: 10px 20px;
       line-height: 60px;
-      color: white;
-    }
-    a {
-      text-decoration: none;
-      color: #22313f;
     }
   </style>
 </head>
 <body>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/posts">Posts</a></li>
-      <li><a href="/add-post">New Post</a></li>
-      <li><a href="/contacts">Contacts</a></li>
-    </ul>
-  </nav>
-  <h1>Contacts:</h1>
-  <ul>
-    <li><a href="http://youtube.com">YouTube</a></li>
-    <li><a href="http://github.com">GitHub</a></li>
-    <li><a href="http://twitter.com">Twitter</a></li>
-  </ul>
+  <%- include('./partials/nav.ejs') %>
+  <h1>Personal Blog</h1>
+  <p>Build with Node.js Express, EJS</p>
 </body>
 </html>
