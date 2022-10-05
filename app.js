@@ -6,7 +6,7 @@ const PORT = 3000;
 
 const server = http.createServer((req, res) => {
   console.log("Server request");
-
+  console.log("Just for test");
   res.setHeader("Content-Type", "text/html");
 
   const createPath = (page) => path.resolve(__dirname, "views", `${page}.html`);
