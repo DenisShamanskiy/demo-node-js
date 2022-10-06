@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+require("dotenv").config();
 const methodOverride = require("method-override");
 const postRoutes = require("./routes/post-routes");
 const postApiRoutes = require("./routes/api-post-routes");
@@ -11,18 +12,18 @@ const app = express();
 
 app.set("view engine", "ejs");
 
-const PORT = 3000;
-
-const db =
-  "mongodb+srv://DenisShamanskiy:g9YwVvFBT8@cluster0.dhvope1.mongodb.net/demo-node-js?retryWrites=true&w=majority";
-
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then((res) => console.log("Connected to DB"))
-  .catch((error) => console.log(error));
+  .catch((error) => console.log(errorMsg(error)));
 
-app.listen(PORT, (error) => {
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, (error) => {
+  error
+    ? console.log(errorMsg(error))
+    : console.log(`listening port ${process.env.PORT}`);
 });
 
 app.use(express.urlencoded({ extended: false }));
