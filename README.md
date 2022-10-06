@@ -18,4 +18,4 @@
 - Добавление, получение, удаление и редактирование данных
 - MVC и Роутер
 - Создание API
-- Загрузка приложения на Heroku.com
+- Загрузка приложения на [Heroku.com](https://d-shamanskiy-demo-node-js.herokuapp.com/)
