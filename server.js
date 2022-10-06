@@ -3,6 +3,7 @@ const path = require("path");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const Post = require("./models/post");
+const Contact = require("./models/contact");
 
 const app = express();
 
@@ -39,38 +40,33 @@ app.get("/", (req, res) => {
 
 app.get("/contacts", (req, res) => {
   const title = "Contacts";
-  const contacts = [
-    { name: "YouTube", link: "http://youtube.com" },
-    { name: "Twitter", link: "http://twitter.com" },
-    { name: "GitHub", link: "http://github.com" },
-  ];
-  res.render(createPath("contacts"), { contacts, title });
+  Contact.find()
+    .then((contacts) => res.render(createPath("contacts"), { contacts, title }))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath("error"), { title: "Error" });
+    });
 });
 
 app.get("/posts/:id", (req, res) => {
   const title = "Post";
-  const post = {
-    id: "1",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quidem provident, dolores, vero laboriosam nemo mollitia impedit unde fugit sint eveniet, minima odio ipsum sed recusandae aut iste aspernatur dolorem.",
-    title: "Post title",
-    date: "06.10.2022",
-    author: "Денис Шаманский",
-  };
-  res.render(createPath("post"), { title, post });
+  Post.findById(req.params.id)
+    .then((post) => res.render(createPath("post"), { post, title }))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath("error"), { title: "Error" });
+    });
 });
 
 app.get("/posts", (req, res) => {
   const title = "Posts";
-  const posts = [
-    {
-      id: "1",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quidem provident, dolores, vero laboriosam nemo mollitia impedit unde fugit sint eveniet, minima odio ipsum sed recusandae aut iste aspernatur dolorem.",
-      title: "Post title",
-      date: "06.10.2022",
-      author: "Денис Шаманский",
-    },
-  ];
-  res.render(createPath("posts"), { title, posts });
+  Post.find()
+    .sort({ createdAt: -1 })
+    .then((posts) => res.render(createPath("posts"), { posts, title }))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath("error"), { title: "Error" });
+    });
 });
 
 app.post("/add-post", (req, res) => {
@@ -78,7 +74,7 @@ app.post("/add-post", (req, res) => {
   const post = new Post({ title, author, text });
   post
     .save()
-    .then((result) => res.send(result))
+    .then((result) => res.redirect("/posts"))
     .catch((error) => {
       console.log(error);
       res.render(createPath("error"), { title: "Error" });
